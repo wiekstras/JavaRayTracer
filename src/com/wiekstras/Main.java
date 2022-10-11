@@ -37,16 +37,17 @@ public class Main {
         final int maxDepth = 10;
 
         Material materialGround = new Lambertian(new Color(0.8, 0.8, 0.0));
-        Material materialCenter = new Dielectric(1.5);
+        Material materialCenter = new Lambertian(new Color(1.0, 0.0, 1.0));
         Material materialLeft = new Dielectric(1.5);
-        Material materialRight = new Metal(new Color(0.8, 0.6, 0.2), 1.0);
+        Material materialRight = new Metal(new Color(0.8, 0.6, 0.2), 0.0);
 
         //World setup
         List<Hittable> objects = new ArrayList<Hittable>();
-        objects.add(new Sphere(new Point3(0,-100.5, -1), 100, materialGround));
-        objects.add(new Sphere(new Point3(0,0, -1), 0.5, materialCenter));
-        objects.add(new Sphere(new Point3(-1,0, -1), 0.5, materialLeft));
-        objects.add(new Sphere(new Point3(1,0, -1), 0.5, materialRight));
+        objects.add(new Sphere(new Point3( 0.0,-100.5, -1.0), 100.0, materialGround));
+        objects.add(new Sphere(new Point3( 0.0,   0.0, -1.0),   0.5, materialCenter));
+        objects.add(new Sphere(new Point3(-1.0,   0.0, -1.0),   0.5, materialLeft));
+        objects.add(new Sphere(new Point3(-1.0,   0.0, -1.0),  -0.4, materialLeft));
+        objects.add(new Sphere(new Point3( 1.0,   0.0, -1.0),   0.5, materialRight));
         Hittable world = new HittableList(objects);
         
         //Create camera

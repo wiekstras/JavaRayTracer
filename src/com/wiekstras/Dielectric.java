@@ -1,5 +1,7 @@
 package com.wiekstras;
 
+import java.util.Random;
+
 public class Dielectric extends Material{
     public double ir;
 
@@ -13,37 +15,49 @@ public class Dielectric extends Material{
         double refractionRatio = record.frontFace ? (1.0/this.ir) : this.ir;
 
         Vec3 unitDirection = new Vec3().UnitVector(r.GetDirection());
-        Vec3 refracted = refract(unitDirection, record.normal, refractionRatio);
 
-        wrapper.scattered = new Ray(record.p, refracted);
-        
+        double cosTheta = Math.min(unitDirection.MultiplyByScalar(-1.0).Dot(record.normal), 1.0);
+        double sinTheta = Math.sqrt(1.0 - cosTheta*cosTheta);
+
+        boolean cannotRefract = refractionRatio * sinTheta > 1.0;
+        Vec3 direction;
+        if (cannotRefract || Reflectance(cosTheta, refractionRatio) > RandomDouble()){
+            direction = Reflect(unitDirection, record.normal);
+        }else{
+            direction = Refract(unitDirection, record.normal, refractionRatio);
+        }
+        wrapper.scattered = new Ray(record.p, direction);
         return true;
     }
 
-    public Vec3 refract(Vec3 uv, Vec3 n, double etaiOverEtat){
+    public Vec3 Refract(Vec3 uv, Vec3 n, double etaiOverEtat){
+//        Vec3 normalizedUV = new Vec3().UnitVector(uv);
+//        double dot = new Vec3().Dot(normalizedUV, n);
+//        double discriminant = 1 - etaiOverEtat * etaiOverEtat * (1-dot*dot);
+//        if (discriminant > 0){
+//            return normalizedUV.Substract(n).MultiplyByScalar(dot).MultiplyByScalar(etaiOverEtat).Substract(n.MultiplyByScalar(Math.sqrt(discriminant)));
+//        }
+//        return new Vec3();
 
-        // auto cos_theta = fmin(dot(-uv, n), 1.0);
-        double cosTheta = Math.min(Dot(uv.MultiplyByScalar(-1), n), 1.0);
-        
-        // vec3 r_out_perp =  etai_over_etat * (uv + cos_theta*n);
-        Vec3 rOutPerpTemp = uv.Add(n.MultiplyByScalar(cosTheta));
-        Vec3 rOutPerp = rOutPerpTemp.MultiplyByScalar(etaiOverEtat);
-        
-        // vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
-        double temp = -Math.sqrt(Math.abs(1.0 - rOutPerp.SqrtLength()));
-        Vec3 rOutParallel = n.MultiplyByScalar(temp);
-        
 
-        // return r_out_perp + r_out_parallel;
+        double cosTheta = Math.min(new Vec3().Dot(uv.MultiplyByScalar(-1.0), n), 1.0);
+        Vec3 rOutPerp = uv.Add(n.MultiplyByScalar(cosTheta)).MultiplyByScalar(etaiOverEtat);
+        Vec3 rOutParallel = n.MultiplyByScalar(-1.0 * Math.sqrt(Math.abs(1.0 - rOutPerp.SqrtLength())));
         return rOutPerp.Add(rOutParallel);
-
-
-        // double cosTheta = Double.min(uv.Substract(uv.MultiplyByScalar(2)).Dot(n), 1.0);        
-        // Vec3 rOutParallel = n.MultiplyByScalar(temp);
-    }
-  
-    public double Dot(Vec3 v, Vec3 n){
-        return (n.e[0] * v.e[0] + n.e[1] * v.e[1] + n.e[2] * v.e[2]);
     }
 
+    public Vec3 Reflect(Vec3 v, Vec3 n){
+        return v.Substract(n.MultiplyByScalar(v.Dot(n) * 2));
+    }
+
+    private double Reflectance(double cosine, double refIDX){
+        double r0 = (1 - refIDX) / (1 + refIDX);
+        r0 = r0 * r0;
+        return r0 + (1 - r0) * Math.pow((1-cosine), 5);
+    }
+
+    public static double RandomDouble() {
+        Random r = new Random();
+        return r.nextDouble();
+    }
 }

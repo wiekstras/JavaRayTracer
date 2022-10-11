@@ -26,4 +26,7 @@ public abstract class Material {
             return p;
         }
     }
+//    public static Vec3 RandomUnitVector(){
+//        return new Vec3().UnitVector(RandomInUnitSphere());
+//    }
 }

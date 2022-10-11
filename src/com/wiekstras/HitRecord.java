@@ -14,7 +14,7 @@ public class HitRecord {
     }
 
     public void SetFaceNormal(Ray r, Vec3 outwardNormal){
-        frontFace = r.GetDirection().Dot(outwardNormal) < 0;
-        normal = frontFace ? outwardNormal : outwardNormal.MultiplyByScalar(-1.0);
+        this.frontFace = r.GetDirection().Dot(outwardNormal) < 0;
+        this.normal = frontFace ? outwardNormal : outwardNormal.MultiplyByScalar(-1.0);
     }
 }

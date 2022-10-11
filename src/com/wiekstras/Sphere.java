@@ -21,20 +21,21 @@ public class Sphere implements Hittable {
         
         double discriminant = half_b * half_b - a * c;
         if(discriminant<0) return false;
-        double sqrtDisc = (double)Math.sqrt(discriminant);
+        double sqrtDisc = Math.sqrt(discriminant);
         
         double root = (-half_b - sqrtDisc) / a;
         if(root < t_min || t_max < root){
             root = (-half_b + sqrtDisc) / a;
-            if(root < t_min || t_max < root)
-            return false;
+            if(root < t_min || t_max < root){
+                return false;
+            }
         }
         rec.t = root;
         rec.p = r.At(rec.t);
         // rec.normal = (rec.p.Substract(center)).DivideByScalar(radius);
-        Vec3 outWardNormal = (rec.p.Substract(center)).DivideByScalar(radius);
+        Vec3 outWardNormal = (rec.p.Substract(center)).DivideByScalar(this.radius);
         rec.SetFaceNormal(r, outWardNormal);
-        rec.matPtr = matPtr;
+        rec.matPtr = this.matPtr;
         
         return true;
         
