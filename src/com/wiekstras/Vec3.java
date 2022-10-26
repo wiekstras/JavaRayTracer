@@ -72,7 +72,16 @@ public class Vec3 {
         final double s = 1e-8;
         return (Math.abs(e[0]) < s) && (Math.abs(e[1]) < s) && (Math.abs(e[2]) < s);
     }
-
+    public Vec3 Cross(Vec3 u, Vec3 v) {
+        return new Vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1],
+                        u.e[2] * v.e[0] - u.e[0] * v.e[2],
+                        u.e[0] * v.e[1] - u.e[1] * v.e[0]);
+    }
+    public Vec3 Cross(Vec3 v) {
+        return new Vec3(this.e[1] * v.e[2] - this.e[2] * v.e[1],
+                        this.e[2] * v.e[0] - this.e[0] * v.e[2],
+                        this.e[0] * v.e[1] - this.e[1] * v.e[0]);
+    }
     // public Vec3 refract()
     
 }    

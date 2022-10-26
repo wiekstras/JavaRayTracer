@@ -1,0 +1,15 @@
+public class Vertex{
+    public Vec3 position;
+    public Vec3 textureCoordinate;
+    public Vec3 normal;
+    
+    public Vertex(Vector3 position, Vector3 textureCoordinate, Vector3 normal) {
+        this.position = position;
+        this.textureCoordinate = textureCoordinate;
+        this.normal = normal;
+    }
+
+    public String toString() {
+        return String.format("<%s, %s, %s>", this.position, this.textureCoordinate, this.normal);
+    }
+}

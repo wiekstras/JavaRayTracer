@@ -31,17 +31,8 @@ public class Dielectric extends Material{
     }
 
     public Vec3 Refract(Vec3 uv, Vec3 n, double etaiOverEtat){
-//        Vec3 normalizedUV = new Vec3().UnitVector(uv);
-//        double dot = new Vec3().Dot(normalizedUV, n);
-//        double discriminant = 1 - etaiOverEtat * etaiOverEtat * (1-dot*dot);
-//        if (discriminant > 0){
-//            return normalizedUV.Substract(n).MultiplyByScalar(dot).MultiplyByScalar(etaiOverEtat).Substract(n.MultiplyByScalar(Math.sqrt(discriminant)));
-//        }
-//        return new Vec3();
-
-
         double cosTheta = Math.min(new Vec3().Dot(uv.MultiplyByScalar(-1.0), n), 1.0);
-        Vec3 rOutPerp = uv.Add(n.MultiplyByScalar(cosTheta)).MultiplyByScalar(etaiOverEtat);
+        Vec3 rOutPerp = uv.Substract(n.MultiplyByScalar(cosTheta)).MultiplyByScalar(etaiOverEtat);
         Vec3 rOutParallel = n.MultiplyByScalar(-1.0 * Math.sqrt(Math.abs(1.0 - rOutPerp.SqrtLength())));
         return rOutPerp.Add(rOutParallel);
     }
