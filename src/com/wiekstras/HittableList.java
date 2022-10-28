@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class HittableList implements Hittable{
 
     List<Hittable> list;
+    // int list_size;
 
     public HittableList() {
         list = new ArrayList<Hittable>();
@@ -13,7 +14,10 @@ public class HittableList implements Hittable{
     public HittableList(List<Hittable> list) {
         this.list = list;
     }
-
+    
+    HittableList(List<Hittable> l, int n){
+		list = l; 
+	}
 
     @Override
     public boolean Hit(Ray r, double t_min, double t_max, HitRecord rec) {
@@ -29,6 +33,7 @@ public class HittableList implements Hittable{
                 rec.normal = tempRecord.normal;
                 rec.p = tempRecord.p;
                 rec.matPtr = tempRecord.matPtr;
+                rec.frontFace = tempRecord.frontFace;
             }
         }
         return hitAnything;
