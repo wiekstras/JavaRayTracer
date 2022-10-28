@@ -56,12 +56,12 @@ public class Main {
         Material material_left   = new Metal(new Color(0.8, 0.8, 0.8), 0.3);
         Material material_right  = new Metal(new Color(0.8, 0.6, 0.2), 0.3);
     
-        objects.add(new Triangle(new Vec3(-1, -1, -5), new Vec3( 1, -1, -5), new Vec3( 0,  1, -5), material_ground ));
-        // objects.add(new Triangle(new Vec3(0,0,0), new Vec3(0,1,1), new Vec3(0,1,0), material_right ));
+        objects.add(new Triangle(new Vec3(-1, -1, -5), new Vec3( 1, -1, -5), new Vec3( 0,  1, -5), material_left ));
+        // objects.add(new Triangle(new Vec3(-1,-1,0), new Vec3(-1,-1,-1), new Vec3(0,-1,0), material_right ));
 
         objects.add(new Sphere(new Point3( 0.0, -100.5, -1.0), 100.0, material_ground));
         // objects.add(new Sphere(new Point3( 0.0,    0.0, -1.0),   0.5, material_center));
-        // objects.add(new Sphere(new Point3(-1.0,    0.0, -1.0),   0.5, Dielectric));
+        objects.add(new Sphere(new Point3(-1.0,    0.0, -1.0),   0.5, material_left));
         // objects.add(new Sphere(new Point3( 1.0,    0.0, -1.0),   0.5, material_right));
 
         

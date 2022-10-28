@@ -37,7 +37,7 @@ public class Triangle implements Hittable{
         double t = -(N.Dot(r.GetOrigin()) + d) / NdotRayDirection;
 
         //Check if the triangle is behind
-        if(t < 0) return false; // the triangle is behind
+        if(t < t_min || t > t_max) return false; // the triangle is behind
 
         // Compute the intersection point using equation 1
         Vec3 P = r.GetOrigin().Add(r.GetDirection().MultiplyByScalar(t));
@@ -66,6 +66,8 @@ public class Triangle implements Hittable{
         rec.t = t;
         rec.p = P;
         rec.normal = N;
+        rec.SetFaceNormal(r, N);
+        // rec.frontFace = true;
         rec.matPtr = this.matPtr;
         return true;
     }
