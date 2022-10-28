@@ -11,7 +11,7 @@ public class Main {
     
     //JFrame
     static final double aspect_ratio = 16.0 / 9.0;
-    final static int imageWidth = 1280;
+    final static int imageWidth = 600;
     final static int imageHeight = (int)(imageWidth/aspect_ratio);
 
 
@@ -29,9 +29,9 @@ public class Main {
         Graphics g2 = canvas.getBufferStrategy().getDrawGraphics();
         BufferedImage buffer = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
         //Antialiasing first set to 10
-        final int samplesPerPixel = 4;
+        final int samplesPerPixel = 1;
         //Max Depth
-        final int maxDepth = 10;
+        final int maxDepth = 4;
 
         // //Materials
         // Material materialGround = new Lambertian(new Color(0.5, 0.5, 0.5));
@@ -69,15 +69,15 @@ public class Main {
         Material porcelain = new Metal(new Color(0.5,0.5,0.5), 0.05);
         // objects.add(new Sphere(new Point3( 0.0,    0.0, -1.0),   0.5, porcelain));
 
-        StlLoad stl = new StlLoad("src/com/wiekstras/teapot.stl", porcelain);
+        StlLoad stl = new StlLoad("src/com/wiekstras/titanic.stl", porcelain);
         objects.add(stl.objectHL());
         
         Hittable world = new HittableList(objects);
         
         //Create camera
-        Vec3 lookFrom = new Vec3(120,80, 200);
-        Vec3 lookAt   = new Vec3(90,40,40);
-        Vec3 vUp      = new Vec3(0,1, 0);
+        Vec3 lookFrom = new Vec3(0,0, 40);
+        Vec3 lookAt   = new Vec3(0,-1,0);
+        Vec3 vUp      = new Vec3(0,0, 0);
         double distToFocus = lookFrom.Substract(lookAt).Lenght();
         //double distToFocus = 10.0;
         double aperture = 0.1;
